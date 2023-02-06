@@ -138,7 +138,8 @@ public class AdministradorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_MenuCategoriaActionPerformed
 
     private void MenuProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProductoActionPerformed
-        // TODO add your handling code here:
+        ArticuloFrame articulo = new ArticuloFrame();
+        centrarVentana(articulo);
     }//GEN-LAST:event_MenuProductoActionPerformed
 
     private void MenuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuUsuarioActionPerformed
