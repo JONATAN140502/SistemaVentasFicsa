@@ -131,6 +131,11 @@ public class CategoriaFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        tblDatos = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+        };
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -139,6 +144,9 @@ public class CategoriaFrame extends javax.swing.JInternalFrame {
                 "ID", "NOMBRE", "DESCRIPCION", "ESTADO"
             }
         ));
+        tblDatos.setFocusable(false);
+        tblDatos.getTableHeader().setResizingAllowed(false);
+        tblDatos.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblDatos);
 
         btnNuevo.setText("NUEVO");
