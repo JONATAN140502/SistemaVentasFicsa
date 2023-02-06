@@ -57,7 +57,7 @@ public class CategoriaFrame extends javax.swing.JInternalFrame {
         if (model.getRowCount() > 0) {
             model.setNumRows(0);
         }
-        Object[] obj = new Object[5];
+        Object[] obj = new Object[4];
         try {
             lista = catobj.findCategoriaEntities();
             for (int i = 0; i < lista.size(); i++) {

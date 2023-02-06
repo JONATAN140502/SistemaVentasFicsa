@@ -11,7 +11,9 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import tallerFicsa.proyectoSVentas.controller.ArticuloJpaController;
 import tallerFicsa.proyectoSVentas.controller.CategoriaJpaController;
+import tallerFicsa.proyectoSVentas.entity.Articulo;
 import tallerFicsa.proyectoSVentas.entity.Categoria;
 
 /**
@@ -20,12 +22,19 @@ import tallerFicsa.proyectoSVentas.entity.Categoria;
  */
 public class ArticuloFrame extends javax.swing.JInternalFrame {
 
+    private ArticuloJpaController artobj = new ArticuloJpaController();
+    private DefaultTableModel model;
+    private List<Articulo> listaArticulos;
+    private Articulo articulo = new Articulo();
+    private String accion = "";
+
     /**
      * Creates new form Categoria
      */
     public ArticuloFrame() {
         initComponents();
         CargarComboCategoria(cboCategoria);
+        listarProductos();
     }
 
     private void CargarComboCategoria(JComboBox c) {
@@ -43,6 +52,31 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showConfirmDialog(null, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
 
+        }
+    }
+
+    private void listarProductos() {
+        model = (DefaultTableModel) tblDatos.getModel();
+        if (model.getRowCount() > 0) {
+            model.setNumRows(0);
+        }
+        Object[] obj = new Object[7];
+        try {
+            listaArticulos = artobj.findArticuloEntities();
+            for (int i = 0; i < listaArticulos.size(); i++) {
+                articulo = (Articulo) listaArticulos.get(i);
+                obj[0] = articulo.getIdarticulo();
+                obj[1] = articulo.getCodigo();
+                obj[2] = articulo.getNombre();
+                obj[3] = articulo.getDescripcion();
+                obj[4] = articulo.getIdcategoria().getNombre();
+                obj[5] = articulo.getStock();
+                obj[6] = articulo.getCondicion();
+                model.addRow(obj);
+            }
+            tblDatos.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(null, "Error en el sistema", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -73,7 +107,7 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblDatos = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         cboCategoria = new javax.swing.JComboBox<>();
         jSpinner1 = new javax.swing.JSpinner();
@@ -114,7 +148,7 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
 
         jButton5.setText("ELIMINAR");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -122,7 +156,7 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
                 "ID", "CODIGO", "NOMBRE", "DESCRIPCION", "TIPO", "STOCK", "ESTADO"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblDatos);
 
         jLabel7.setText("Tipo:");
 
@@ -259,10 +293,10 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTable tblDatos;
     // End of variables declaration//GEN-END:variables
 }
