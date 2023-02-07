@@ -65,7 +65,7 @@ public class CategoriaFrame extends javax.swing.JInternalFrame {
                 obj[0] = categoria.getIdcategoria();
                 obj[1] = categoria.getNombre();
                 obj[2] = categoria.getDescripcion();
-                obj[3] = categoria.getCondicion();
+                obj[3] = categoria.getCondicion()==1?"Activo":"Inactivo";
                 model.addRow(obj);
             }
             tblDatos.setModel(model);

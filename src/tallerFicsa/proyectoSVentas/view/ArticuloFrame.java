@@ -190,6 +190,11 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
         });
 
         btnEditar.setText("EDITAR");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("ELIMINAR");
 
@@ -357,7 +362,7 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
             Articulo articulo = new Articulo();
-            Categoria categoria= new Categoria();
+            Categoria categoria = new Categoria();
             articulo.setCodigo(txtCodigo.getText());
             articulo.setNombre(txtNombre.getText());
             articulo.setDescripcion(txtDescripcion.getText());
@@ -391,6 +396,36 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
             JOptionPane.showConfirmDialog(null, "Error en el sistema", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if (tblDatos.getSelectedRowCount() == 1) {
+            try {
+                this.accion = "Editar";
+                enableForm();
+                int row = tblDatos.getSelectedRow();
+                txtId.setText(tblDatos.getValueAt(row, 0).toString());
+                Articulo articulo = new Articulo();
+                articulo = artobj.findArticulo(Integer.parseInt(txtId.getText()));
+                txtCodigo.setText(articulo.getCodigo());
+                txtNombre.setText(articulo.getNombre());
+                txtDescripcion.setText(articulo.getDescripcion());
+                spinnerStock.setValue(articulo.getStock());
+                if (chkEstado.isSelected()) {
+                    chkEstado.setText("Activo");
+                } else {
+                    chkEstado.setText("Inactivo");
+                }
+                txtNombre.requestFocus();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Ocurrio algun error", "Informacion", JOptionPane.WARNING_MESSAGE);
+
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Tiene que seleccionar algun registro", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
