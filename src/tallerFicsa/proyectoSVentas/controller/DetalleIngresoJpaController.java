@@ -49,7 +49,7 @@ public class DetalleIngresoJpaController implements Serializable {
             }
             em.persist(detalleIngreso);
             if (idarticulo != null) {
-                idarticulo.getDetalleIngresoList().add(detalleIngreso);
+                idarticulo.getDetalleIngresoCollection().add(detalleIngreso);
                 idarticulo = em.merge(idarticulo);
             }
             if (idingreso != null) {
@@ -84,11 +84,11 @@ public class DetalleIngresoJpaController implements Serializable {
             }
             detalleIngreso = em.merge(detalleIngreso);
             if (idarticuloOld != null && !idarticuloOld.equals(idarticuloNew)) {
-                idarticuloOld.getDetalleIngresoList().remove(detalleIngreso);
+                idarticuloOld.getDetalleIngresoCollection().remove(detalleIngreso);
                 idarticuloOld = em.merge(idarticuloOld);
             }
             if (idarticuloNew != null && !idarticuloNew.equals(idarticuloOld)) {
-                idarticuloNew.getDetalleIngresoList().add(detalleIngreso);
+                idarticuloNew.getDetalleIngresoCollection().add(detalleIngreso);
                 idarticuloNew = em.merge(idarticuloNew);
             }
             if (idingresoOld != null && !idingresoOld.equals(idingresoNew)) {
@@ -130,7 +130,7 @@ public class DetalleIngresoJpaController implements Serializable {
             }
             Articulo idarticulo = detalleIngreso.getIdarticulo();
             if (idarticulo != null) {
-                idarticulo.getDetalleIngresoList().remove(detalleIngreso);
+                idarticulo.getDetalleIngresoCollection().remove(detalleIngreso);
                 idarticulo = em.merge(idarticulo);
             }
             Ingreso idingreso = detalleIngreso.getIdingreso();

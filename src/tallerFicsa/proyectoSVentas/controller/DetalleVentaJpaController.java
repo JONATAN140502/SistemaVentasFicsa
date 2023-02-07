@@ -49,7 +49,7 @@ public class DetalleVentaJpaController implements Serializable {
             }
             em.persist(detalleVenta);
             if (idarticulo != null) {
-                idarticulo.getDetalleVentaList().add(detalleVenta);
+                idarticulo.getDetalleVentaCollection().add(detalleVenta);
                 idarticulo = em.merge(idarticulo);
             }
             if (idventa != null) {
@@ -84,11 +84,11 @@ public class DetalleVentaJpaController implements Serializable {
             }
             detalleVenta = em.merge(detalleVenta);
             if (idarticuloOld != null && !idarticuloOld.equals(idarticuloNew)) {
-                idarticuloOld.getDetalleVentaList().remove(detalleVenta);
+                idarticuloOld.getDetalleVentaCollection().remove(detalleVenta);
                 idarticuloOld = em.merge(idarticuloOld);
             }
             if (idarticuloNew != null && !idarticuloNew.equals(idarticuloOld)) {
-                idarticuloNew.getDetalleVentaList().add(detalleVenta);
+                idarticuloNew.getDetalleVentaCollection().add(detalleVenta);
                 idarticuloNew = em.merge(idarticuloNew);
             }
             if (idventaOld != null && !idventaOld.equals(idventaNew)) {
@@ -130,7 +130,7 @@ public class DetalleVentaJpaController implements Serializable {
             }
             Articulo idarticulo = detalleVenta.getIdarticulo();
             if (idarticulo != null) {
-                idarticulo.getDetalleVentaList().remove(detalleVenta);
+                idarticulo.getDetalleVentaCollection().remove(detalleVenta);
                 idarticulo = em.merge(idarticulo);
             }
             Venta idventa = detalleVenta.getIdventa();

@@ -6,12 +6,12 @@
     <class>tallerFicsa.proyectoSVentas.entity.Persona</class>
     <class>tallerFicsa.proyectoSVentas.entity.Categoria</class>
     <class>tallerFicsa.proyectoSVentas.entity.Venta</class>
-    <class>tallerFicsa.proyectoSVentas.entity.Articulo</class>
     <class>tallerFicsa.proyectoSVentas.entity.Usuario</class>
     <class>tallerFicsa.proyectoSVentas.entity.UsuarioPermiso</class>
     <class>tallerFicsa.proyectoSVentas.entity.Permiso</class>
     <class>tallerFicsa.proyectoSVentas.entity.Ingreso</class>
     <class>tallerFicsa.proyectoSVentas.entity.DetalleIngreso</class>
+    <class>tallerFicsa.proyectoSVentas.entity.Articulo</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dbsistema?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

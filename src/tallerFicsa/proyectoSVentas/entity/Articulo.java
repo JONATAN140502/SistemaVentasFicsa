@@ -5,7 +5,7 @@
 package tallerFicsa.proyectoSVentas.entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,9 +33,13 @@ import javax.persistence.Table;
     @NamedQuery(name = "Articulo.findByNombre", query = "SELECT a FROM Articulo a WHERE a.nombre = :nombre"),
     @NamedQuery(name = "Articulo.findByStock", query = "SELECT a FROM Articulo a WHERE a.stock = :stock"),
     @NamedQuery(name = "Articulo.findByDescripcion", query = "SELECT a FROM Articulo a WHERE a.descripcion = :descripcion"),
-    @NamedQuery(name = "Articulo.findByImagen", query = "SELECT a FROM Articulo a WHERE a.imagen = :imagen"),
     @NamedQuery(name = "Articulo.findByCondicion", query = "SELECT a FROM Articulo a WHERE a.condicion = :condicion")})
 public class Articulo implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idarticulo")
+    private Collection<DetalleVenta> detalleVentaCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idarticulo")
+    private Collection<DetalleIngreso> detalleIngresoCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,14 +56,8 @@ public class Articulo implements Serializable {
     private Integer stock;
     @Column(name = "descripcion")
     private String descripcion;
-    @Column(name = "imagen")
-    private String imagen;
     @Column(name = "condicion")
     private int condicion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idarticulo")
-    private List<DetalleVenta> detalleVentaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idarticulo")
-    private List<DetalleIngreso> detalleIngresoList;
     @JoinColumn(name = "idcategoria", referencedColumnName = "idcategoria")
     @ManyToOne(optional = false)
     private Categoria idcategoria;
@@ -116,36 +114,12 @@ public class Articulo implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
     public int getCondicion() {
         return condicion;
     }
 
     public void setCondicion(int condicion) {
         this.condicion = condicion;
-    }
-
-    public List<DetalleVenta> getDetalleVentaList() {
-        return detalleVentaList;
-    }
-
-    public void setDetalleVentaList(List<DetalleVenta> detalleVentaList) {
-        this.detalleVentaList = detalleVentaList;
-    }
-
-    public List<DetalleIngreso> getDetalleIngresoList() {
-        return detalleIngresoList;
-    }
-
-    public void setDetalleIngresoList(List<DetalleIngreso> detalleIngresoList) {
-        this.detalleIngresoList = detalleIngresoList;
     }
 
     public Categoria getIdcategoria() {
@@ -179,6 +153,22 @@ public class Articulo implements Serializable {
     @Override
     public String toString() {
         return "tallerFicsa.proyectoSVentas.entity.Articulo[ idarticulo=" + idarticulo + " ]";
+    }
+
+    public Collection<DetalleVenta> getDetalleVentaCollection() {
+        return detalleVentaCollection;
+    }
+
+    public void setDetalleVentaCollection(Collection<DetalleVenta> detalleVentaCollection) {
+        this.detalleVentaCollection = detalleVentaCollection;
+    }
+
+    public Collection<DetalleIngreso> getDetalleIngresoCollection() {
+        return detalleIngresoCollection;
+    }
+
+    public void setDetalleIngresoCollection(Collection<DetalleIngreso> detalleIngresoCollection) {
+        this.detalleIngresoCollection = detalleIngresoCollection;
     }
     
 }

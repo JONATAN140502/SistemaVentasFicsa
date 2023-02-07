@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import tallerFicsa.proyectoSVentas.controller.exceptions.IllegalOrphanException;
 import tallerFicsa.proyectoSVentas.controller.exceptions.NonexistentEntityException;
 import tallerFicsa.proyectoSVentas.entity.Venta;
@@ -30,11 +29,6 @@ public class VentaJpaController implements Serializable {
     public VentaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-
-    public VentaJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("ProyectoSVentasPU");
-    }
-
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
@@ -262,5 +256,5 @@ public class VentaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

@@ -12,6 +12,7 @@ import javax.persistence.criteria.Root;
 import tallerFicsa.proyectoSVentas.entity.Categoria;
 import tallerFicsa.proyectoSVentas.entity.DetalleVenta;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -30,22 +31,23 @@ public class ArticuloJpaController implements Serializable {
     public ArticuloJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-
+    private EntityManagerFactory emf = null;
+    
     public ArticuloJpaController() {
         this.emf = Persistence.createEntityManagerFactory("ProyectoSVentasPU");
     }
-    private EntityManagerFactory emf = null;
-
+    
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
     public void create(Articulo articulo) {
-        if (articulo.getDetalleVentaList() == null) {
-            articulo.setDetalleVentaList(new ArrayList<DetalleVenta>());
+        if (articulo.getDetalleVentaCollection() == null) {
+            articulo.setDetalleVentaCollection(new ArrayList<DetalleVenta>());
         }
-        if (articulo.getDetalleIngresoList() == null) {
-            articulo.setDetalleIngresoList(new ArrayList<DetalleIngreso>());
+        if (articulo.getDetalleIngresoCollection() == null) {
+            articulo.setDetalleIngresoCollection(new ArrayList<DetalleIngreso>());
         }
         EntityManager em = null;
         try {
@@ -56,39 +58,39 @@ public class ArticuloJpaController implements Serializable {
                 idcategoria = em.getReference(idcategoria.getClass(), idcategoria.getIdcategoria());
                 articulo.setIdcategoria(idcategoria);
             }
-            List<DetalleVenta> attachedDetalleVentaList = new ArrayList<DetalleVenta>();
-            for (DetalleVenta detalleVentaListDetalleVentaToAttach : articulo.getDetalleVentaList()) {
-                detalleVentaListDetalleVentaToAttach = em.getReference(detalleVentaListDetalleVentaToAttach.getClass(), detalleVentaListDetalleVentaToAttach.getIddetalleVenta());
-                attachedDetalleVentaList.add(detalleVentaListDetalleVentaToAttach);
+            Collection<DetalleVenta> attachedDetalleVentaCollection = new ArrayList<DetalleVenta>();
+            for (DetalleVenta detalleVentaCollectionDetalleVentaToAttach : articulo.getDetalleVentaCollection()) {
+                detalleVentaCollectionDetalleVentaToAttach = em.getReference(detalleVentaCollectionDetalleVentaToAttach.getClass(), detalleVentaCollectionDetalleVentaToAttach.getIddetalleVenta());
+                attachedDetalleVentaCollection.add(detalleVentaCollectionDetalleVentaToAttach);
             }
-            articulo.setDetalleVentaList(attachedDetalleVentaList);
-            List<DetalleIngreso> attachedDetalleIngresoList = new ArrayList<DetalleIngreso>();
-            for (DetalleIngreso detalleIngresoListDetalleIngresoToAttach : articulo.getDetalleIngresoList()) {
-                detalleIngresoListDetalleIngresoToAttach = em.getReference(detalleIngresoListDetalleIngresoToAttach.getClass(), detalleIngresoListDetalleIngresoToAttach.getIddetalleIngreso());
-                attachedDetalleIngresoList.add(detalleIngresoListDetalleIngresoToAttach);
+            articulo.setDetalleVentaCollection(attachedDetalleVentaCollection);
+            Collection<DetalleIngreso> attachedDetalleIngresoCollection = new ArrayList<DetalleIngreso>();
+            for (DetalleIngreso detalleIngresoCollectionDetalleIngresoToAttach : articulo.getDetalleIngresoCollection()) {
+                detalleIngresoCollectionDetalleIngresoToAttach = em.getReference(detalleIngresoCollectionDetalleIngresoToAttach.getClass(), detalleIngresoCollectionDetalleIngresoToAttach.getIddetalleIngreso());
+                attachedDetalleIngresoCollection.add(detalleIngresoCollectionDetalleIngresoToAttach);
             }
-            articulo.setDetalleIngresoList(attachedDetalleIngresoList);
+            articulo.setDetalleIngresoCollection(attachedDetalleIngresoCollection);
             em.persist(articulo);
             if (idcategoria != null) {
                 idcategoria.getArticuloList().add(articulo);
                 idcategoria = em.merge(idcategoria);
             }
-            for (DetalleVenta detalleVentaListDetalleVenta : articulo.getDetalleVentaList()) {
-                Articulo oldIdarticuloOfDetalleVentaListDetalleVenta = detalleVentaListDetalleVenta.getIdarticulo();
-                detalleVentaListDetalleVenta.setIdarticulo(articulo);
-                detalleVentaListDetalleVenta = em.merge(detalleVentaListDetalleVenta);
-                if (oldIdarticuloOfDetalleVentaListDetalleVenta != null) {
-                    oldIdarticuloOfDetalleVentaListDetalleVenta.getDetalleVentaList().remove(detalleVentaListDetalleVenta);
-                    oldIdarticuloOfDetalleVentaListDetalleVenta = em.merge(oldIdarticuloOfDetalleVentaListDetalleVenta);
+            for (DetalleVenta detalleVentaCollectionDetalleVenta : articulo.getDetalleVentaCollection()) {
+                Articulo oldIdarticuloOfDetalleVentaCollectionDetalleVenta = detalleVentaCollectionDetalleVenta.getIdarticulo();
+                detalleVentaCollectionDetalleVenta.setIdarticulo(articulo);
+                detalleVentaCollectionDetalleVenta = em.merge(detalleVentaCollectionDetalleVenta);
+                if (oldIdarticuloOfDetalleVentaCollectionDetalleVenta != null) {
+                    oldIdarticuloOfDetalleVentaCollectionDetalleVenta.getDetalleVentaCollection().remove(detalleVentaCollectionDetalleVenta);
+                    oldIdarticuloOfDetalleVentaCollectionDetalleVenta = em.merge(oldIdarticuloOfDetalleVentaCollectionDetalleVenta);
                 }
             }
-            for (DetalleIngreso detalleIngresoListDetalleIngreso : articulo.getDetalleIngresoList()) {
-                Articulo oldIdarticuloOfDetalleIngresoListDetalleIngreso = detalleIngresoListDetalleIngreso.getIdarticulo();
-                detalleIngresoListDetalleIngreso.setIdarticulo(articulo);
-                detalleIngresoListDetalleIngreso = em.merge(detalleIngresoListDetalleIngreso);
-                if (oldIdarticuloOfDetalleIngresoListDetalleIngreso != null) {
-                    oldIdarticuloOfDetalleIngresoListDetalleIngreso.getDetalleIngresoList().remove(detalleIngresoListDetalleIngreso);
-                    oldIdarticuloOfDetalleIngresoListDetalleIngreso = em.merge(oldIdarticuloOfDetalleIngresoListDetalleIngreso);
+            for (DetalleIngreso detalleIngresoCollectionDetalleIngreso : articulo.getDetalleIngresoCollection()) {
+                Articulo oldIdarticuloOfDetalleIngresoCollectionDetalleIngreso = detalleIngresoCollectionDetalleIngreso.getIdarticulo();
+                detalleIngresoCollectionDetalleIngreso.setIdarticulo(articulo);
+                detalleIngresoCollectionDetalleIngreso = em.merge(detalleIngresoCollectionDetalleIngreso);
+                if (oldIdarticuloOfDetalleIngresoCollectionDetalleIngreso != null) {
+                    oldIdarticuloOfDetalleIngresoCollectionDetalleIngreso.getDetalleIngresoCollection().remove(detalleIngresoCollectionDetalleIngreso);
+                    oldIdarticuloOfDetalleIngresoCollectionDetalleIngreso = em.merge(oldIdarticuloOfDetalleIngresoCollectionDetalleIngreso);
                 }
             }
             em.getTransaction().commit();
@@ -107,25 +109,25 @@ public class ArticuloJpaController implements Serializable {
             Articulo persistentArticulo = em.find(Articulo.class, articulo.getIdarticulo());
             Categoria idcategoriaOld = persistentArticulo.getIdcategoria();
             Categoria idcategoriaNew = articulo.getIdcategoria();
-            List<DetalleVenta> detalleVentaListOld = persistentArticulo.getDetalleVentaList();
-            List<DetalleVenta> detalleVentaListNew = articulo.getDetalleVentaList();
-            List<DetalleIngreso> detalleIngresoListOld = persistentArticulo.getDetalleIngresoList();
-            List<DetalleIngreso> detalleIngresoListNew = articulo.getDetalleIngresoList();
+            Collection<DetalleVenta> detalleVentaCollectionOld = persistentArticulo.getDetalleVentaCollection();
+            Collection<DetalleVenta> detalleVentaCollectionNew = articulo.getDetalleVentaCollection();
+            Collection<DetalleIngreso> detalleIngresoCollectionOld = persistentArticulo.getDetalleIngresoCollection();
+            Collection<DetalleIngreso> detalleIngresoCollectionNew = articulo.getDetalleIngresoCollection();
             List<String> illegalOrphanMessages = null;
-            for (DetalleVenta detalleVentaListOldDetalleVenta : detalleVentaListOld) {
-                if (!detalleVentaListNew.contains(detalleVentaListOldDetalleVenta)) {
+            for (DetalleVenta detalleVentaCollectionOldDetalleVenta : detalleVentaCollectionOld) {
+                if (!detalleVentaCollectionNew.contains(detalleVentaCollectionOldDetalleVenta)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain DetalleVenta " + detalleVentaListOldDetalleVenta + " since its idarticulo field is not nullable.");
+                    illegalOrphanMessages.add("You must retain DetalleVenta " + detalleVentaCollectionOldDetalleVenta + " since its idarticulo field is not nullable.");
                 }
             }
-            for (DetalleIngreso detalleIngresoListOldDetalleIngreso : detalleIngresoListOld) {
-                if (!detalleIngresoListNew.contains(detalleIngresoListOldDetalleIngreso)) {
+            for (DetalleIngreso detalleIngresoCollectionOldDetalleIngreso : detalleIngresoCollectionOld) {
+                if (!detalleIngresoCollectionNew.contains(detalleIngresoCollectionOldDetalleIngreso)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain DetalleIngreso " + detalleIngresoListOldDetalleIngreso + " since its idarticulo field is not nullable.");
+                    illegalOrphanMessages.add("You must retain DetalleIngreso " + detalleIngresoCollectionOldDetalleIngreso + " since its idarticulo field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -135,20 +137,20 @@ public class ArticuloJpaController implements Serializable {
                 idcategoriaNew = em.getReference(idcategoriaNew.getClass(), idcategoriaNew.getIdcategoria());
                 articulo.setIdcategoria(idcategoriaNew);
             }
-            List<DetalleVenta> attachedDetalleVentaListNew = new ArrayList<DetalleVenta>();
-            for (DetalleVenta detalleVentaListNewDetalleVentaToAttach : detalleVentaListNew) {
-                detalleVentaListNewDetalleVentaToAttach = em.getReference(detalleVentaListNewDetalleVentaToAttach.getClass(), detalleVentaListNewDetalleVentaToAttach.getIddetalleVenta());
-                attachedDetalleVentaListNew.add(detalleVentaListNewDetalleVentaToAttach);
+            Collection<DetalleVenta> attachedDetalleVentaCollectionNew = new ArrayList<DetalleVenta>();
+            for (DetalleVenta detalleVentaCollectionNewDetalleVentaToAttach : detalleVentaCollectionNew) {
+                detalleVentaCollectionNewDetalleVentaToAttach = em.getReference(detalleVentaCollectionNewDetalleVentaToAttach.getClass(), detalleVentaCollectionNewDetalleVentaToAttach.getIddetalleVenta());
+                attachedDetalleVentaCollectionNew.add(detalleVentaCollectionNewDetalleVentaToAttach);
             }
-            detalleVentaListNew = attachedDetalleVentaListNew;
-            articulo.setDetalleVentaList(detalleVentaListNew);
-            List<DetalleIngreso> attachedDetalleIngresoListNew = new ArrayList<DetalleIngreso>();
-            for (DetalleIngreso detalleIngresoListNewDetalleIngresoToAttach : detalleIngresoListNew) {
-                detalleIngresoListNewDetalleIngresoToAttach = em.getReference(detalleIngresoListNewDetalleIngresoToAttach.getClass(), detalleIngresoListNewDetalleIngresoToAttach.getIddetalleIngreso());
-                attachedDetalleIngresoListNew.add(detalleIngresoListNewDetalleIngresoToAttach);
+            detalleVentaCollectionNew = attachedDetalleVentaCollectionNew;
+            articulo.setDetalleVentaCollection(detalleVentaCollectionNew);
+            Collection<DetalleIngreso> attachedDetalleIngresoCollectionNew = new ArrayList<DetalleIngreso>();
+            for (DetalleIngreso detalleIngresoCollectionNewDetalleIngresoToAttach : detalleIngresoCollectionNew) {
+                detalleIngresoCollectionNewDetalleIngresoToAttach = em.getReference(detalleIngresoCollectionNewDetalleIngresoToAttach.getClass(), detalleIngresoCollectionNewDetalleIngresoToAttach.getIddetalleIngreso());
+                attachedDetalleIngresoCollectionNew.add(detalleIngresoCollectionNewDetalleIngresoToAttach);
             }
-            detalleIngresoListNew = attachedDetalleIngresoListNew;
-            articulo.setDetalleIngresoList(detalleIngresoListNew);
+            detalleIngresoCollectionNew = attachedDetalleIngresoCollectionNew;
+            articulo.setDetalleIngresoCollection(detalleIngresoCollectionNew);
             articulo = em.merge(articulo);
             if (idcategoriaOld != null && !idcategoriaOld.equals(idcategoriaNew)) {
                 idcategoriaOld.getArticuloList().remove(articulo);
@@ -158,25 +160,25 @@ public class ArticuloJpaController implements Serializable {
                 idcategoriaNew.getArticuloList().add(articulo);
                 idcategoriaNew = em.merge(idcategoriaNew);
             }
-            for (DetalleVenta detalleVentaListNewDetalleVenta : detalleVentaListNew) {
-                if (!detalleVentaListOld.contains(detalleVentaListNewDetalleVenta)) {
-                    Articulo oldIdarticuloOfDetalleVentaListNewDetalleVenta = detalleVentaListNewDetalleVenta.getIdarticulo();
-                    detalleVentaListNewDetalleVenta.setIdarticulo(articulo);
-                    detalleVentaListNewDetalleVenta = em.merge(detalleVentaListNewDetalleVenta);
-                    if (oldIdarticuloOfDetalleVentaListNewDetalleVenta != null && !oldIdarticuloOfDetalleVentaListNewDetalleVenta.equals(articulo)) {
-                        oldIdarticuloOfDetalleVentaListNewDetalleVenta.getDetalleVentaList().remove(detalleVentaListNewDetalleVenta);
-                        oldIdarticuloOfDetalleVentaListNewDetalleVenta = em.merge(oldIdarticuloOfDetalleVentaListNewDetalleVenta);
+            for (DetalleVenta detalleVentaCollectionNewDetalleVenta : detalleVentaCollectionNew) {
+                if (!detalleVentaCollectionOld.contains(detalleVentaCollectionNewDetalleVenta)) {
+                    Articulo oldIdarticuloOfDetalleVentaCollectionNewDetalleVenta = detalleVentaCollectionNewDetalleVenta.getIdarticulo();
+                    detalleVentaCollectionNewDetalleVenta.setIdarticulo(articulo);
+                    detalleVentaCollectionNewDetalleVenta = em.merge(detalleVentaCollectionNewDetalleVenta);
+                    if (oldIdarticuloOfDetalleVentaCollectionNewDetalleVenta != null && !oldIdarticuloOfDetalleVentaCollectionNewDetalleVenta.equals(articulo)) {
+                        oldIdarticuloOfDetalleVentaCollectionNewDetalleVenta.getDetalleVentaCollection().remove(detalleVentaCollectionNewDetalleVenta);
+                        oldIdarticuloOfDetalleVentaCollectionNewDetalleVenta = em.merge(oldIdarticuloOfDetalleVentaCollectionNewDetalleVenta);
                     }
                 }
             }
-            for (DetalleIngreso detalleIngresoListNewDetalleIngreso : detalleIngresoListNew) {
-                if (!detalleIngresoListOld.contains(detalleIngresoListNewDetalleIngreso)) {
-                    Articulo oldIdarticuloOfDetalleIngresoListNewDetalleIngreso = detalleIngresoListNewDetalleIngreso.getIdarticulo();
-                    detalleIngresoListNewDetalleIngreso.setIdarticulo(articulo);
-                    detalleIngresoListNewDetalleIngreso = em.merge(detalleIngresoListNewDetalleIngreso);
-                    if (oldIdarticuloOfDetalleIngresoListNewDetalleIngreso != null && !oldIdarticuloOfDetalleIngresoListNewDetalleIngreso.equals(articulo)) {
-                        oldIdarticuloOfDetalleIngresoListNewDetalleIngreso.getDetalleIngresoList().remove(detalleIngresoListNewDetalleIngreso);
-                        oldIdarticuloOfDetalleIngresoListNewDetalleIngreso = em.merge(oldIdarticuloOfDetalleIngresoListNewDetalleIngreso);
+            for (DetalleIngreso detalleIngresoCollectionNewDetalleIngreso : detalleIngresoCollectionNew) {
+                if (!detalleIngresoCollectionOld.contains(detalleIngresoCollectionNewDetalleIngreso)) {
+                    Articulo oldIdarticuloOfDetalleIngresoCollectionNewDetalleIngreso = detalleIngresoCollectionNewDetalleIngreso.getIdarticulo();
+                    detalleIngresoCollectionNewDetalleIngreso.setIdarticulo(articulo);
+                    detalleIngresoCollectionNewDetalleIngreso = em.merge(detalleIngresoCollectionNewDetalleIngreso);
+                    if (oldIdarticuloOfDetalleIngresoCollectionNewDetalleIngreso != null && !oldIdarticuloOfDetalleIngresoCollectionNewDetalleIngreso.equals(articulo)) {
+                        oldIdarticuloOfDetalleIngresoCollectionNewDetalleIngreso.getDetalleIngresoCollection().remove(detalleIngresoCollectionNewDetalleIngreso);
+                        oldIdarticuloOfDetalleIngresoCollectionNewDetalleIngreso = em.merge(oldIdarticuloOfDetalleIngresoCollectionNewDetalleIngreso);
                     }
                 }
             }
@@ -210,19 +212,19 @@ public class ArticuloJpaController implements Serializable {
                 throw new NonexistentEntityException("The articulo with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<DetalleVenta> detalleVentaListOrphanCheck = articulo.getDetalleVentaList();
-            for (DetalleVenta detalleVentaListOrphanCheckDetalleVenta : detalleVentaListOrphanCheck) {
+            Collection<DetalleVenta> detalleVentaCollectionOrphanCheck = articulo.getDetalleVentaCollection();
+            for (DetalleVenta detalleVentaCollectionOrphanCheckDetalleVenta : detalleVentaCollectionOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Articulo (" + articulo + ") cannot be destroyed since the DetalleVenta " + detalleVentaListOrphanCheckDetalleVenta + " in its detalleVentaList field has a non-nullable idarticulo field.");
+                illegalOrphanMessages.add("This Articulo (" + articulo + ") cannot be destroyed since the DetalleVenta " + detalleVentaCollectionOrphanCheckDetalleVenta + " in its detalleVentaCollection field has a non-nullable idarticulo field.");
             }
-            List<DetalleIngreso> detalleIngresoListOrphanCheck = articulo.getDetalleIngresoList();
-            for (DetalleIngreso detalleIngresoListOrphanCheckDetalleIngreso : detalleIngresoListOrphanCheck) {
+            Collection<DetalleIngreso> detalleIngresoCollectionOrphanCheck = articulo.getDetalleIngresoCollection();
+            for (DetalleIngreso detalleIngresoCollectionOrphanCheckDetalleIngreso : detalleIngresoCollectionOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Articulo (" + articulo + ") cannot be destroyed since the DetalleIngreso " + detalleIngresoListOrphanCheckDetalleIngreso + " in its detalleIngresoList field has a non-nullable idarticulo field.");
+                illegalOrphanMessages.add("This Articulo (" + articulo + ") cannot be destroyed since the DetalleIngreso " + detalleIngresoCollectionOrphanCheckDetalleIngreso + " in its detalleIngresoCollection field has a non-nullable idarticulo field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -286,5 +288,5 @@ public class ArticuloJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

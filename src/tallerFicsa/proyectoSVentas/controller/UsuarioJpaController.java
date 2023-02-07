@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import tallerFicsa.proyectoSVentas.controller.exceptions.IllegalOrphanException;
 import tallerFicsa.proyectoSVentas.controller.exceptions.NonexistentEntityException;
 import tallerFicsa.proyectoSVentas.entity.Ingreso;
@@ -30,11 +29,6 @@ public class UsuarioJpaController implements Serializable {
     public UsuarioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-
-    public UsuarioJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("ProyectoSVentasPU");
-    }
-
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
@@ -308,5 +302,5 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }
