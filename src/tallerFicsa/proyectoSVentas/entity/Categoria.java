@@ -124,7 +124,7 @@ public class Categoria implements Serializable {
 
     @Override
     public String toString() {
-        return "tallerFicsa.proyectoSVentas.entity.Categoria[ idcategoria=" + idcategoria + " ]";
+        return nombre;
     }
     
 }

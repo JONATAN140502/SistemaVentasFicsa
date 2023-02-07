@@ -55,7 +55,7 @@ public class Articulo implements Serializable {
     @Column(name = "imagen")
     private String imagen;
     @Column(name = "condicion")
-    private Short condicion;
+    private int condicion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idarticulo")
     private List<DetalleVenta> detalleVentaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idarticulo")
@@ -124,11 +124,11 @@ public class Articulo implements Serializable {
         this.imagen = imagen;
     }
 
-    public Short getCondicion() {
+    public int getCondicion() {
         return condicion;
     }
 
-    public void setCondicion(Short condicion) {
+    public void setCondicion(int condicion) {
         this.condicion = condicion;
     }
 
