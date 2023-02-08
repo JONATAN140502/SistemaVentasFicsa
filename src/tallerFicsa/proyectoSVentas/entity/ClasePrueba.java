@@ -11,5 +11,5 @@ package tallerFicsa.proyectoSVentas.entity;
 public class ClasePrueba {
     boolean valor = true;
     int numero = 45;
-    String valor2 = "Cadena";
+    String valor2 = "Ca";
 }
