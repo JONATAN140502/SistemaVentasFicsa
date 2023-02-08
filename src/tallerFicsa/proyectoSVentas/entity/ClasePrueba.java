@@ -10,4 +10,5 @@ package tallerFicsa.proyectoSVentas.entity;
  */
 public class ClasePrueba {
     boolean valor = true;
+    int numero = 45;
 }
