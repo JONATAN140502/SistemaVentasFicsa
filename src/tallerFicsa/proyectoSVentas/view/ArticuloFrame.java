@@ -37,7 +37,6 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
         CargarComboCategoria(cboCategoria);
         listarProductos();
         disableForm();
-        
 
     }
 
@@ -51,6 +50,8 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
         txtNombre.setText("");
         txtDescripcion.setText("");
         txtCodigo.setText("");
+        spinnerStock.setValue(0);
+        cboCategoria.setSelectedIndex(0);
         chkEstado.setText("Activo");
         chkEstado.setSelected(true);
     }
@@ -76,8 +77,8 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
                 categoria.setNombre(listaCat.get(i).getNombre());
                 c.addItem(categoria);
             }
-        //Permite que se pueda buscar en el Combo Categoria
-        AutoCompleteDecorator.decorate(c);
+            //Permite que se pueda buscar en el Combo Categoria
+            AutoCompleteDecorator.decorate(c);
 
         } catch (Exception e) {
             JOptionPane.showConfirmDialog(null, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -386,12 +387,14 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
                     artobj.create(articulo);
                     rpta = 1;
                     break;
-//                case "Editar":
-//                    categoria.setIdcategoria(Integer.parseInt(txtId.getText()));
+                case "Editar":
+                    articulo.setIdarticulo(Integer.parseInt(txtId.getText()));
+                    articulo.setDetalleVentaCollection(artobj.findArticulo(Integer.parseInt(txtId.getText())).getDetalleVentaCollection());
+                    articulo.setDetalleIngresoCollection(artobj.findArticulo(Integer.parseInt(txtId.getText())).getDetalleIngresoCollection());
 //                    categoria.setArticuloList(catobj.findCategoria(Integer.parseInt(txtId.getText())).getArticuloList());
-//                    catobj.edit(categoria);
-//                    rpta = 1;
-//                    break;
+                    artobj.edit(articulo);
+                    rpta = 1;
+                    break;
                 default:
                     JOptionPane.showConfirmDialog(null, "No se encontro la accion", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
@@ -412,11 +415,14 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
                 enableForm();
                 int row = tblDatos.getSelectedRow();
                 txtId.setText(tblDatos.getValueAt(row, 0).toString());
+                CategoriaJpaController catobj = new CategoriaJpaController();
+                List<Categoria> listaCat = catobj.findCategoriaEntities();
                 Articulo articulo = new Articulo();
                 articulo = artobj.findArticulo(Integer.parseInt(txtId.getText()));
                 txtCodigo.setText(articulo.getCodigo());
                 txtNombre.setText(articulo.getNombre());
                 txtDescripcion.setText(articulo.getDescripcion());
+                cboCategoria.setSelectedItem(articulo.getIdcategoria().getNombre());
                 spinnerStock.setValue(articulo.getStock());
                 if (chkEstado.isSelected()) {
                     chkEstado.setText("Activo");

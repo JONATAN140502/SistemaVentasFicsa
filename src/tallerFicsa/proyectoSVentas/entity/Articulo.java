@@ -36,6 +36,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "Articulo.findByCondicion", query = "SELECT a FROM Articulo a WHERE a.condicion = :condicion")})
 public class Articulo implements Serializable {
 
+    @Column(name = "condicion")
+    private Integer condicion;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idarticulo")
     private Collection<DetalleVenta> detalleVentaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idarticulo")
@@ -56,8 +59,6 @@ public class Articulo implements Serializable {
     private Integer stock;
     @Column(name = "descripcion")
     private String descripcion;
-    @Column(name = "condicion")
-    private int condicion;
     @JoinColumn(name = "idcategoria", referencedColumnName = "idcategoria")
     @ManyToOne(optional = false)
     private Categoria idcategoria;
@@ -114,13 +115,6 @@ public class Articulo implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public int getCondicion() {
-        return condicion;
-    }
-
-    public void setCondicion(int condicion) {
-        this.condicion = condicion;
-    }
 
     public Categoria getIdcategoria() {
         return idcategoria;
@@ -169,6 +163,14 @@ public class Articulo implements Serializable {
 
     public void setDetalleIngresoCollection(Collection<DetalleIngreso> detalleIngresoCollection) {
         this.detalleIngresoCollection = detalleIngresoCollection;
+    }
+
+    public Integer getCondicion() {
+        return condicion;
+    }
+
+    public void setCondicion(Integer condicion) {
+        this.condicion = condicion;
     }
     
 }
