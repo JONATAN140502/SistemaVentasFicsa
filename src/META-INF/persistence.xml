@@ -13,10 +13,10 @@
     <class>tallerFicsa.proyectoSVentas.entity.DetalleIngreso</class>
     <class>tallerFicsa.proyectoSVentas.entity.Articulo</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dbsistema?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ficsa?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="javax.persistence.jdbc.password" value="123456789"/>
     </properties>
   </persistence-unit>
 </persistence>
