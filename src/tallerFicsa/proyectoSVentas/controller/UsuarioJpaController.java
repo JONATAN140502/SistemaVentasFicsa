@@ -5,6 +5,7 @@
 package tallerFicsa.proyectoSVentas.controller;
 
 import java.io.Serializable;
+
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import tallerFicsa.proyectoSVentas.controller.exceptions.IllegalOrphanException;
 import tallerFicsa.proyectoSVentas.controller.exceptions.NonexistentEntityException;
 import tallerFicsa.proyectoSVentas.entity.Ingreso;
@@ -29,6 +31,11 @@ public class UsuarioJpaController implements Serializable {
     public UsuarioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+
+    public UsuarioJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("ProyectoSVentasPU");
+    }
+
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
@@ -303,4 +310,22 @@ public class UsuarioJpaController implements Serializable {
         }
     }
     
+        public Usuario findByUsuarioAndClave(String login, String clave){
+        EntityManager cm = getEntityManager();
+        try {
+
+            List<Usuario> user = cm.createNamedQuery("Usuario.findByUsuarioAndClave",Usuario.class)
+                   .setParameter("login",login)
+                   .setParameter("clave",clave)
+                   .getResultList();
+            if (user.size()>0) {
+                return user.get(0);
+            }
+            return null;
+        }
+        finally{
+            cm.close();
+        }
+    }
+
 }

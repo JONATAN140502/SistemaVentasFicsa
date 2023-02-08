@@ -26,6 +26,7 @@ import javax.persistence.Table;
 @Table(name = "usuario")
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
+    @NamedQuery(name = "Usuario.findByUsuarioAndClave", query = "SELECT u FROM Usuario u WHERE u.login= :login AND u.clave= :clave "),
     @NamedQuery(name = "Usuario.findByIdusuario", query = "SELECT u FROM Usuario u WHERE u.idusuario = :idusuario"),
     @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre"),
     @NamedQuery(name = "Usuario.findByTipoDocumento", query = "SELECT u FROM Usuario u WHERE u.tipoDocumento = :tipoDocumento"),
@@ -244,5 +245,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "tallerFicsa.proyectoSVentas.entity.Usuario[ idusuario=" + idusuario + " ]";
     }
-    
+
 }

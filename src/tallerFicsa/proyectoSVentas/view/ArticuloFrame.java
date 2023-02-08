@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import tallerFicsa.proyectoSVentas.controller.ArticuloJpaController;
 import tallerFicsa.proyectoSVentas.controller.CategoriaJpaController;
 import tallerFicsa.proyectoSVentas.entity.Articulo;
@@ -36,6 +37,7 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
         CargarComboCategoria(cboCategoria);
         listarProductos();
         disableForm();
+        
 
     }
 
@@ -74,6 +76,9 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
                 categoria.setNombre(listaCat.get(i).getNombre());
                 c.addItem(categoria);
             }
+        //Permite que se pueda buscar en el Combo Categoria
+        AutoCompleteDecorator.decorate(c);
+
         } catch (Exception e) {
             JOptionPane.showConfirmDialog(null, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
 
@@ -200,13 +205,16 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Tipo:");
 
+        cboCategoria.setEditable(true);
         cboCategoria.setMaximumRowCount(5);
+        cboCategoria.setOpaque(true);
 
         tblDatos = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex){
                 return false;
             }
         };
+        tblDatos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -319,8 +327,8 @@ public class ArticuloFrame extends javax.swing.JInternalFrame {
                     .addComponent(btnEditar)
                     .addComponent(btnEliminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
